@@ -31,7 +31,7 @@ export default function CakeCard({ cake, index }: CakeCardProps) {
       image: cake.image,
     });
     toast.success(`${cake.name} added to cart`, {
-      description: `$${cake.price.toFixed(2)}`,
+      description: `Rs. ${cake.price.toLocaleString()}`,
     });
   };
 
@@ -89,7 +89,7 @@ export default function CakeCard({ cake, index }: CakeCardProps) {
         </p>
         <div className="mt-4 flex items-center justify-between">
           <span className="font-[family-name:var(--font-playfair)] text-xl font-bold text-primary">
-            ${cake.price.toFixed(2)}
+            Rs. {cake.price.toLocaleString()}
           </span>
           <Button
             size="sm"

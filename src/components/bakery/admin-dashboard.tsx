@@ -330,7 +330,7 @@ export default function AdminDashboard() {
               <StatCard
                 icon={DollarSign}
                 label="Total Revenue"
-                value={`$${(stats?.totalRevenue || 0).toFixed(2)}`}
+                value={`Rs. ${(stats?.totalRevenue || 0).toLocaleString()}`}
                 color="bg-gold/15 text-[oklch(0.50_0.12_65)]"
               />
               <StatCard
@@ -465,7 +465,7 @@ export default function AdminDashboard() {
                               {order.items.map((it) => `${it.cakeName} x${it.quantity}`).join(', ')}
                             </TableCell>
                             <TableCell className="text-sm font-semibold">
-                              ${order.totalAmount.toFixed(2)}
+                              Rs. {order.totalAmount.toLocaleString()}
                             </TableCell>
                             <TableCell>
                               <Badge className={`${STATUS_COLORS[order.status] || ''} border-0 text-xs`}>

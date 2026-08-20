@@ -82,7 +82,7 @@ export default function CartSidebar({ onClose }: CartSidebarProps) {
                     {item.name}
                   </h4>
                   <p className="text-sm font-semibold text-primary mt-0.5">
-                    ${item.price.toFixed(2)}
+                    Rs. {item.price.toLocaleString()}
                   </p>
                   <div className="flex items-center gap-2 mt-1.5">
                     <button
@@ -120,7 +120,7 @@ export default function CartSidebar({ onClose }: CartSidebarProps) {
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Subtotal</span>
             <span className="font-semibold text-foreground">
-              ${getTotal().toFixed(2)}
+              Rs. {getTotal().toLocaleString()}
             </span>
           </div>
           <Separator />

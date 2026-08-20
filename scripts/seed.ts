@@ -11,7 +11,7 @@ const cakes = [
   {
     name: 'Classic Chocolate Dream',
     description: 'Rich, velvety chocolate layers with a decadent ganache finish. A timeless favorite.',
-    price: 35,
+    price: 3500,
     image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop',
     category: 'classic',
     isFeatured: true,
@@ -19,7 +19,7 @@ const cakes = [
   {
     name: 'Garden Strawberry Delight',
     description: 'Light vanilla sponge layered with fresh strawberries and whipped cream frosting.',
-    price: 38,
+    price: 3800,
     image: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&h=400&fit=crop',
     category: 'seasonal',
     isFeatured: false,
@@ -27,7 +27,7 @@ const cakes = [
   {
     name: 'Madagascar Vanilla Bean',
     description: 'Three layers of fragrant vanilla bean cake with Swiss meringue buttercream.',
-    price: 32,
+    price: 3200,
     image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=400&fit=crop',
     category: 'classic',
     isFeatured: false,
@@ -35,7 +35,7 @@ const cakes = [
   {
     name: 'Red Velvet Elegance',
     description: 'Signature red velvet with cream cheese frosting and white chocolate shavings.',
-    price: 42,
+    price: 4500,
     image: 'https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=600&h=400&fit=crop',
     category: 'signature',
     isFeatured: true,
@@ -43,7 +43,7 @@ const cakes = [
   {
     name: 'Sunshine Lemon Cake',
     description: 'Bright lemon sponge with lemon curd filling and a tangy glaze. Perfect for spring.',
-    price: 30,
+    price: 2800,
     image: 'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&h=400&fit=crop',
     category: 'seasonal',
     isFeatured: false,
@@ -51,7 +51,7 @@ const cakes = [
   {
     name: 'Spiced Carrot Cake',
     description: 'Moist carrot cake with walnuts, cinnamon, and luscious cream cheese frosting.',
-    price: 36,
+    price: 3500,
     image: 'https://images.unsplash.com/photo-1535141192574-5d4897c12571?w=600&h=400&fit=crop',
     category: 'classic',
     isFeatured: false,
@@ -59,7 +59,7 @@ const cakes = [
   {
     name: 'Black Forest Gateau',
     description: 'German-inspired chocolate cake with cherries, whipped cream, and chocolate shavings.',
-    price: 45,
+    price: 5000,
     image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&h=400&fit=crop',
     category: 'premium',
     isFeatured: true,
@@ -67,7 +67,7 @@ const cakes = [
   {
     name: 'New York Cheesecake',
     description: 'Creamy, dense cheesecake with a buttery graham cracker crust and berry compote.',
-    price: 40,
+    price: 4200,
     image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=600&h=400&fit=crop',
     category: 'premium',
     isFeatured: false,
@@ -75,7 +75,7 @@ const cakes = [
   {
     name: 'Wild Blueberry Bliss',
     description: 'Tender almond cake with wild blueberry filling and a delicate lemon glaze.',
-    price: 44,
+    price: 4800,
     image: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600&h=400&fit=crop',
     category: 'seasonal',
     isFeatured: false,
@@ -83,7 +83,7 @@ const cakes = [
   {
     name: 'Classic Tiramisu Cake',
     description: 'Coffee-soaked layers with mascarpone cream and a dusting of cocoa powder.',
-    price: 48,
+    price: 5200,
     image: 'https://images.unsplash.com/photo-1486427944544-d2c246c4df14?w=600&h=400&fit=crop',
     category: 'signature',
     isFeatured: false,
@@ -91,7 +91,7 @@ const cakes = [
   {
     name: 'Tropical Coconut Cloud',
     description: 'Light coconut sponge with coconut cream filling and toasted coconut flakes.',
-    price: 34,
+    price: 3000,
     image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop',
     category: 'classic',
     isFeatured: false,
@@ -99,7 +99,7 @@ const cakes = [
   {
     name: 'Golden Caramel Drip Cake',
     description: 'Salted caramel layers with toffee bits and a stunning caramel drip finish.',
-    price: 55,
+    price: 6000,
     image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop',
     category: 'premium',
     isFeatured: true,

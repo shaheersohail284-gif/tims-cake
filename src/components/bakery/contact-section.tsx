@@ -105,7 +105,7 @@ export default function ContactSection() {
       }
 
       toast.success('Order placed successfully!', {
-        description: `Order total: $${(data.totalAmount || getTotal()).toFixed(2)}`,
+        description: `Total: Rs. ${(data.totalAmount || getTotal()).toLocaleString()}`,
         duration: 5000,
       });
       clearCart();
@@ -172,14 +172,14 @@ export default function ContactSection() {
                             {item.name} x{item.quantity}
                           </span>
                           <span className="text-foreground font-medium flex-shrink-0">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            Rs. {(item.price * item.quantity).toLocaleString()}
                           </span>
                         </div>
                       ))}
                     </div>
                     <div className="mt-3 pt-2 border-t border-border flex justify-between text-sm font-semibold">
                       <span>Total</span>
-                      <span className="text-primary">${getTotal().toFixed(2)}</span>
+                      <span className="text-primary">Rs. {getTotal().toLocaleString()}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -240,7 +240,7 @@ export default function ContactSection() {
                     ) : (
                       <>
                         <Send className="w-4 h-4 mr-2" />
-                        Place Order — ${getTotal().toFixed(2)}
+                        Place Order — Rs. {getTotal().toLocaleString()}
                       </>
                     )}
                   </Button>
