@@ -1,0 +1,148 @@
+import { db } from '@/lib/db';
+import { NextRequest, NextResponse } from 'next/server';
+import { getAdminAuth } from '@/lib/auth';
+import { rateLimit, sanitizeInput, validateEmail, validatePhone } from '@/lib/security';
+
+export async function GET() {
+  try {
+    const admin = await getAdminAuth();
+    if (!admin) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const orders = await db.order.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { items: true },
+    });
+
+    return NextResponse.json(orders);
+  } catch {
+    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
+  }
+}
+
+const VALID_TRANSITIONS: Record<string, string[]> = {
+  pending: ['confirmed', 'preparing', 'cancelled'],
+  confirmed: ['preparing', 'cancelled'],
+  preparing: ['ready', 'cancelled'],
+  ready: ['delivered'],
+  cancelled: [],
+  delivered: [],
+};
+
+export async function POST(request: NextRequest) {
+  try {
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed } = rateLimit(ip, 5, 60000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Too many order attempts. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
+    const body = await request.json();
+    const {
+      customerName,
+      customerEmail,
+      customerPhone,
+      deliveryAddress,
+      deliveryDate,
+      deliveryTime,
+      notes,
+      items,
+    } = body;
+
+    // Validate required fields
+    const name = sanitizeInput(customerName, 100);
+    const email = sanitizeInput(customerEmail, 200);
+    const phone = sanitizeInput(customerPhone, 30);
+    const address = sanitizeInput(deliveryAddress, 300);
+    const date = sanitizeInput(deliveryDate, 20);
+    const time = sanitizeInput(deliveryTime, 20);
+    const safeNotes = notes ? sanitizeInput(notes, 1000) : null;
+
+    if (!name || !email || !phone || !address || !date || !time) {
+      return NextResponse.json(
+        { error: 'All required fields must be filled.' },
+        { status: 400 }
+      );
+    }
+
+    if (!validateEmail(email)) {
+      return NextResponse.json(
+        { error: 'Please provide a valid email address.' },
+        { status: 400 }
+      );
+    }
+
+    if (!validatePhone(phone)) {
+      return NextResponse.json(
+        { error: 'Please provide a valid phone number.' },
+        { status: 400 }
+      );
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json(
+        { error: 'Your cart is empty.' },
+        { status: 400 }
+      );
+    }
+
+    // Verify cakes are available
+    let totalAmount = 0;
+    const orderItems: {
+      cakeId: string;
+      cakeName: string;
+      quantity: number;
+      price: number;
+    }[] = [];
+
+    for (const item of items) {
+      const cake = await db.cake.findUnique({
+        where: { id: item.cakeId },
+      });
+
+      if (!cake || !cake.isAvailable) {
+        return NextResponse.json(
+          { error: `"${item.name}" is no longer available.` },
+          { status: 400 }
+        );
+      }
+
+      const qty = Math.max(1, Math.min(item.quantity, 20));
+      totalAmount += cake.price * qty;
+      orderItems.push({
+        cakeId: cake.id,
+        cakeName: cake.name,
+        quantity: qty,
+        price: cake.price,
+      });
+    }
+
+    const order = await db.order.create({
+      data: {
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        deliveryAddress: address,
+        deliveryDate: date,
+        deliveryTime: time,
+        notes: safeNotes,
+        totalAmount: Math.round(totalAmount * 100) / 100,
+        items: {
+          create: orderItems,
+        },
+      },
+      include: { items: true },
+    });
+
+    return NextResponse.json(order, { status: 201 });
+  } catch {
+    return NextResponse.json(
+      { error: 'Something went wrong. Please try again.' },
+      { status: 500 }
+    );
+  }
+}
