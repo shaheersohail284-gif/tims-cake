@@ -85,10 +85,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Button
               onClick={() => scrollTo('#menu')}
-              className={`hidden sm:inline-flex rounded-full px-5 transition-all duration-300 ${
+              className={`hidden sm:inline-flex rounded-full px-5 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg ${
                 scrolled
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : 'bg-white/20 text-white border border-white/30 hover:bg-white/30 backdrop-blur-sm'
+                  ? 'bg-gold text-[oklch(0.22_0.04_40)] hover:bg-gold/90 shadow-[0_2px_12px_oklch(0.76_0.15_75/30%)]'
+                  : 'bg-gold/90 text-[oklch(0.22_0.04_40)] border border-gold/60 hover:bg-gold backdrop-blur-sm shadow-[0_2px_12px_oklch(0.76_0.15_75/25%)]'
               }`}
             >
               Order Now
@@ -158,7 +158,7 @@ export default function Navbar() {
                   ))}
                   <div className="mt-4 px-4">
                     <Button
-                      className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+                      className="w-full rounded-full bg-gold text-[oklch(0.22_0.04_40)] hover:bg-gold/90 hover:shadow-lg"
                       onClick={() => scrollTo('#menu')}
                     >
                       Order Now
