@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Send, Loader2 } from 'lucide-react';
+import { Phone, Mail, Clock, Truck, Send, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,9 +12,9 @@ import { useCartStore } from '@/lib/store';
 import { toast } from 'sonner';
 
 const contactInfo = [
-  { icon: MapPin, label: 'Visit Us', value: '123 Baker Street, Sweet Town' },
-  { icon: Phone, label: 'Call Us', value: '(555) 123-CAKE' },
-  { icon: Mail, label: 'Email Us', value: 'hello@timscake.com' },
+  { icon: Truck, label: 'Delivery', value: 'Online delivery — we come to you!' },
+  { icon: Phone, label: 'Call / WhatsApp', value: '+92 335 3264769' },
+  { icon: Mail, label: 'Email Us', value: 'shaheersohail284@gmail.com' },
   { icon: Clock, label: 'Hours', value: 'Mon-Sat: 8am - 8pm' },
 ];
 
@@ -142,7 +142,7 @@ export default function ContactSection() {
             Place Your Order
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm sm:text-base">
-            Fill out the form below with your delivery details. We&apos;ll handle the rest.
+            We deliver straight to your doorstep. Fill out the form and we&apos;ll handle the rest.
           </p>
         </motion.div>
 

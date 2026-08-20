@@ -1,6 +1,6 @@
 'use client';
 
-import { Cake, Instagram, Facebook, Phone, Mail, MapPin } from 'lucide-react';
+import { Cake, Instagram, Facebook, Phone, Mail, Truck } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export default function Footer() {
@@ -58,16 +58,16 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-white/50">
-                <MapPin className="w-4 h-4 flex-shrink-0" />
-                123 Baker Street, Sweet Town
+                <Truck className="w-4 h-4 flex-shrink-0" />
+                Online Delivery Only
               </li>
               <li className="flex items-center gap-2 text-sm text-white/50">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                (555) 123-CAKE
+                +92 335 3264769
               </li>
               <li className="flex items-center gap-2 text-sm text-white/50">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                hello@timscake.com
+                shaheersohail284@gmail.com
               </li>
             </ul>
           </div>

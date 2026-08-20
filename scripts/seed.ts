@@ -109,12 +109,12 @@ const cakes = [
 async function main() {
   console.log('Seeding database...');
 
-  const adminPassword = hashPassword('admin123');
+  const adminPassword = hashPassword('TimCake@2026');
   const admin = await db.admin.upsert({
-    where: { email: 'admin@timscake.com' },
+    where: { email: 'shaheersohail284@gmail.com' },
     update: {},
     create: {
-      email: 'admin@timscake.com',
+      email: 'shaheersohail284@gmail.com',
       password: adminPassword,
       name: 'Tim',
     },

@@ -69,7 +69,7 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
           className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-white/85 max-w-2xl mx-auto font-light leading-relaxed"
         >
-          Every cake tells a story. Let us bake yours.
+          Every cake tells a story. Order online — we deliver to your door.
         </motion.p>
 
         <motion.div

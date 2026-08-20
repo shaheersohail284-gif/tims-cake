@@ -52,15 +52,15 @@ export default function AboutSection() {
             </h2>
             <p className="mt-5 text-muted-foreground leading-relaxed">
               What started as a small kitchen experiment has grown into a beloved
-              neighborhood bakery. Tim&apos;s Cake was born from a simple belief:
+              online cake shop. Tim&apos;s Cake was born from a simple belief:
               that the best cakes are made with patience, real butter, and a whole
-              lot of heart.
+              lot of heart — and delivered right to your doorstep.
             </p>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              Every morning, we start from scratch. Our buttercream is whipped
-              fresh, our chocolate is tempered by hand, and every cake is decorated
-              with the care it deserves. No shortcuts, no compromises — just pure
-              handcrafted joy.
+              Every order is made fresh. Our buttercream is whipped
+              by hand, our chocolate is tempered with care, and every cake is decorated
+              with the attention it deserves. No shortcuts, no compromises — just pure
+              handcrafted joy, delivered to your door.
             </p>
 
             {/* Stats */}
