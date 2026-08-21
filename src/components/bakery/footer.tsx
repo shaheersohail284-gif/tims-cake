@@ -1,6 +1,6 @@
 'use client';
 
-import { Cake, Instagram, Facebook, Phone, Mail, Truck } from 'lucide-react';
+import { Instagram, Facebook, Phone, Mail, Truck } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export default function Footer() {
@@ -20,9 +20,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-                <Cake className="w-5 h-5 text-primary-foreground" />
-              </div>
+              <img src="/logo.png" alt="Tim's Cake" className="w-9 h-9 rounded-full object-cover" />
               <span className="font-[family-name:var(--font-playfair)] text-xl font-bold bakery-text text-white">
                 Tim&apos;s Cake
               </span>

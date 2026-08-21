@@ -30,7 +30,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Tim's Cake" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/logo.png', sizes: '1080x1080', type: 'image/png' },
+    ],
   },
   openGraph: {
     title: "Tim's Cake — Handcrafted Cakes Made With Love",

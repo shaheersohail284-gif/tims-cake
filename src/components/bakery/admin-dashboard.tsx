@@ -213,6 +213,9 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleLogin} className="space-y-4">
+                <div className="flex justify-center mb-2">
+                  <img src="/logo.png" alt="Tim's Cake" className="w-16 h-16 rounded-full object-cover" />
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="admin-email">Email</Label>
                   <Input

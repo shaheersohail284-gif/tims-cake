@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cake, Menu, ShoppingBag, X } from 'lucide-react';
+import { Menu, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
@@ -52,9 +52,11 @@ export default function Navbar() {
             onClick={() => scrollTo('#home')}
             className="flex items-center gap-2 group cursor-pointer"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <Cake className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
-            </div>
+            <img
+              src="/logo.png"
+              alt="Tim's Cake"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover group-hover:scale-110 transition-transform duration-300"
+            />
             <span
               className={`font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold bakery-text transition-colors duration-300 ${
                 scrolled ? 'text-[oklch(0.22_0.04_40)]' : 'text-white'
@@ -140,9 +142,12 @@ export default function Navbar() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72 bg-[oklch(0.98_0.01_80)]">
-                <SheetTitle className="font-[family-name:var(--font-playfair)] text-lg text-[oklch(0.22_0.04_40)]">
-                  Tim&apos;s Cake
-                </SheetTitle>
+                <div className="flex items-center gap-2">
+                  <img src="/logo.png" alt="Tim's Cake" className="w-8 h-8 rounded-full object-cover" />
+                  <SheetTitle className="font-[family-name:var(--font-playfair)] text-lg text-[oklch(0.22_0.04_40)]">
+                    Tim&apos;s Cake
+                  </SheetTitle>
+                </div>
                 <div className="mt-8 flex flex-col gap-1">
                   {navLinks.map((link, i) => (
                     <motion.button
