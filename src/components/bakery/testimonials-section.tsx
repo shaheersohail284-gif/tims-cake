@@ -6,25 +6,46 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const testimonials = [
   {
-    name: 'Sarah Mitchell',
-    role: 'Birthday Celebration',
-    text: "The red velvet cake was absolutely stunning. Not only did it look like a work of art, but every bite was pure heaven. Tim's Cake made my daughter's birthday unforgettable.",
+    name: 'Ayesha Khan',
+    role: 'Birthday Party — Lahore',
+    text: "The red velvet cake was absolutely stunning! My daughter's birthday was made so special. The cream cheese frosting was perfect and delivery was right on time to our DHA home. Highly recommend Tim's Cake!",
     rating: 5,
-    initials: 'SM',
+    initials: 'AK',
   },
   {
-    name: 'James Parker',
-    role: 'Wedding Cake',
-    text: "We ordered a three-tier wedding cake and it exceeded every expectation. The flavors were incredible and the design matched our vision perfectly. Worth every penny.",
+    name: 'Ahmed Raza',
+    role: 'Wedding — Karachi',
+    text: "We ordered a three-tier cake for our wedding and it exceeded every expectation. The design matched our mehndi theme perfectly. Our guests couldn't stop talking about the taste. Best decision ever!",
     rating: 5,
-    initials: 'JP',
+    initials: 'AR',
   },
   {
-    name: 'Emily Chen',
-    role: 'Regular Customer',
-    text: "I've been ordering from Tim's Cake for over a year now and they never disappoint. The cheesecake is to die for, and the delivery is always right on time.",
+    name: 'Fatima Noor',
+    role: 'Regular Customer — Islamabad',
+    text: "I've been ordering from Tim's Cake for over a year now and they never disappoint. The cheesecake is to die for! Every Eid celebration feels incomplete without their cakes. Truly the best in Pakistan.",
     rating: 5,
-    initials: 'EC',
+    initials: 'FN',
+  },
+  {
+    name: 'Hassan Ali',
+    role: 'Corporate Event — Rawalpindi',
+    text: 'Ordered for our office anniversary and everyone was impressed. The caramel drip cake was a showstopper. Professional service, on-time delivery, and the taste was out of this world. Will order again!',
+    rating: 5,
+    initials: 'HA',
+  },
+  {
+    name: 'Zainab Sheikh',
+    role: 'Engagement — Faisalabad',
+    text: "The chocolate dream cake was beyond amazing. It was the highlight of our engagement ceremony. Beautiful presentation, rich flavor, and the team was so cooperative with custom requests. Love it!",
+    rating: 5,
+    initials: 'ZS',
+  },
+  {
+    name: 'Bilal Iqbal',
+    role: 'Anniversary Surprise — Multan',
+    text: 'Surprised my wife with the tiramisu cake for our anniversary. She absolutely loved it! The coffee flavor was authentic and the layers were so soft. Tim\'s Cake made our day truly memorable.',
+    rating: 5,
+    initials: 'BI',
   },
 ];
 
@@ -47,7 +68,7 @@ export default function TestimonialsSection() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
