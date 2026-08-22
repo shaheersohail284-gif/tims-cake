@@ -94,6 +94,7 @@ export default function ContactSection() {
             name: item.name,
             quantity: item.quantity,
             price: item.price,
+            weight: item.weight,
           })),
         }),
       });
@@ -167,9 +168,9 @@ export default function ContactSection() {
                     <div className="text-xs text-muted-foreground mb-2">Your Cart</div>
                     <div className="space-y-1.5 max-h-32 overflow-y-auto">
                       {items.map((item) => (
-                        <div key={item.cakeId} className="flex justify-between text-sm">
+                        <div key={`${item.cakeId}-${item.weight}`} className="flex justify-between text-sm">
                           <span className="text-foreground truncate mr-2">
-                            {item.name} x{item.quantity}
+                            {item.name} ({item.weight}) x{item.quantity}
                           </span>
                           <span className="text-foreground font-medium flex-shrink-0">
                             Rs. {(item.price * item.quantity).toLocaleString()}

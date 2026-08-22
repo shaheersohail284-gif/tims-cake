@@ -21,15 +21,6 @@ export async function GET() {
   }
 }
 
-const VALID_TRANSITIONS: Record<string, string[]> = {
-  pending: ['confirmed', 'preparing', 'cancelled'],
-  confirmed: ['preparing', 'cancelled'],
-  preparing: ['ready', 'cancelled'],
-  ready: ['delivered'],
-  cancelled: [],
-  delivered: [],
-};
-
 export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
@@ -53,7 +44,6 @@ export async function POST(request: NextRequest) {
       items,
     } = body;
 
-    // Validate required fields
     const name = sanitizeInput(customerName, 100);
     const email = sanitizeInput(customerEmail, 200);
     const phone = sanitizeInput(customerPhone, 30);
@@ -90,11 +80,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify cakes are available
+    // Validate items and calculate total
     let totalAmount = 0;
     const orderItems: {
       cakeId: string;
       cakeName: string;
+      weight: string;
       quantity: number;
       price: number;
     }[] = [];
@@ -111,13 +102,31 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      // Verify the selected weight + price exists in the cake's price list
+      let priceValid = false;
+      try {
+        const priceList = JSON.parse(cake.prices || '[]');
+        priceValid = priceList.some(
+          (p: { weight: string; price: number }) =>
+            p.weight === item.weight && p.price === item.price
+        );
+      } catch { /* ignore */ }
+
+      if (!priceValid) {
+        return NextResponse.json(
+          { error: `Invalid price for "${item.name}" (${item.weight}). Please re-select.` },
+          { status: 400 }
+        );
+      }
+
       const qty = Math.max(1, Math.min(item.quantity, 20));
-      totalAmount += cake.price * qty;
+      totalAmount += item.price * qty;
       orderItems.push({
         cakeId: cake.id,
-        cakeName: cake.name,
+        cakeName: item.name,
+        weight: item.weight,
         quantity: qty,
-        price: cake.price,
+        price: item.price,
       });
     }
 

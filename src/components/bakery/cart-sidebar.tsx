@@ -65,7 +65,7 @@ export default function CartSidebar({ onClose }: CartSidebarProps) {
           <AnimatePresence>
             {items.map((item) => (
               <motion.div
-                key={item.cakeId}
+                key={`${item.cakeId}-${item.weight}`}
                 layout
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -81,12 +81,15 @@ export default function CartSidebar({ onClose }: CartSidebarProps) {
                   <h4 className="text-sm font-medium text-foreground truncate">
                     {item.name}
                   </h4>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {item.weight}
+                  </p>
                   <p className="text-sm font-semibold text-primary mt-0.5">
                     Rs. {item.price.toLocaleString()}
                   </p>
                   <div className="flex items-center gap-2 mt-1.5">
                     <button
-                      onClick={() => updateQuantity(item.cakeId, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.cakeId, item.weight, item.quantity - 1)}
                       className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer"
                     >
                       <Minus className="w-3 h-3" />
@@ -95,13 +98,13 @@ export default function CartSidebar({ onClose }: CartSidebarProps) {
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.cakeId, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.cakeId, item.weight, item.quantity + 1)}
                       className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
                     <button
-                      onClick={() => removeItem(item.cakeId)}
+                      onClick={() => removeItem(item.cakeId, item.weight)}
                       className="ml-auto w-7 h-7 rounded-lg flex items-center justify-center hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

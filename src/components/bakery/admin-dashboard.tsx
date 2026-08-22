@@ -42,7 +42,7 @@ interface Order {
   totalAmount: number;
   status: string;
   createdAt: string;
-  items: { cakeName: string; quantity: number; price: number }[];
+  items: { cakeName: string; weight: string; quantity: number; price: number }[];
 }
 
 interface Stats {
@@ -465,7 +465,7 @@ export default function AdminDashboard() {
                               {new Date(order.createdAt).toLocaleDateString()}
                             </TableCell>
                             <TableCell className="text-xs">
-                              {order.items.map((it) => `${it.cakeName} x${it.quantity}`).join(', ')}
+                              {order.items.map((it) => `${it.cakeName} (${it.weight}) x${it.quantity}`).join(', ')}
                             </TableCell>
                             <TableCell className="text-sm font-semibold">
                               Rs. {order.totalAmount.toLocaleString()}

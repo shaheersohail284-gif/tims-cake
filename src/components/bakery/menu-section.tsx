@@ -11,7 +11,7 @@ interface Cake {
   id: string;
   name: string;
   description: string;
-  price: number;
+  prices: string;
   image: string;
   category: string;
   isFeatured: boolean;

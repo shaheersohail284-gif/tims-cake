@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Star } from 'lucide-react';
+import { Plus, Star, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useCartStore } from '@/lib/store';
+import { useCartStore, type PriceOption } from '@/lib/store';
 import { toast } from 'sonner';
 
 interface CakeCardProps {
@@ -12,7 +13,7 @@ interface CakeCardProps {
     id: string;
     name: string;
     description: string;
-    price: number;
+    prices: string;
     image: string;
     category: string;
     isFeatured: boolean;
@@ -22,16 +23,32 @@ interface CakeCardProps {
 
 export default function CakeCard({ cake, index }: CakeCardProps) {
   const addItem = useCartStore((s) => s.addItem);
+  const [showWeights, setShowWeights] = useState(false);
+  const [selectedWeight, setSelectedWeight] = useState<string | null>(null);
 
-  const handleAdd = () => {
+  let priceOptions: PriceOption[] = [];
+  try {
+    priceOptions = JSON.parse(cake.prices || '[]');
+  } catch {
+    /* ignore parse errors */
+  }
+
+  const startingPrice = priceOptions.length > 0
+    ? Math.min(...priceOptions.map((p) => p.price))
+    : 0;
+
+  const handleAdd = (weight: string, price: number) => {
     addItem({
       cakeId: cake.id,
       name: cake.name,
-      price: cake.price,
+      price,
       image: cake.image,
+      weight,
     });
-    toast.success(`${cake.name} added to cart`, {
-      description: `Rs. ${cake.price.toLocaleString()}`,
+    setSelectedWeight(weight);
+    setShowWeights(false);
+    toast.success(`${cake.name} (${weight}) added to cart`, {
+      description: `Rs. ${price.toLocaleString()}`,
     });
   };
 
@@ -87,18 +104,57 @@ export default function CakeCard({ cake, index }: CakeCardProps) {
         <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2 leading-relaxed">
           {cake.description}
         </p>
-        <div className="mt-4 flex items-center justify-between">
-          <span className="font-[family-name:var(--font-playfair)] text-xl font-bold text-primary">
-            Rs. {cake.price.toLocaleString()}
+
+        {/* Starting price */}
+        <div className="mt-3">
+          <span className="text-xs text-muted-foreground">Starting from</span>
+          <span className="ml-1.5 font-[family-name:var(--font-playfair)] text-xl font-bold text-primary">
+            Rs. {startingPrice.toLocaleString()}
           </span>
+        </div>
+
+        {/* Weight selector + Add button */}
+        <div className="mt-4 relative">
           <Button
-            size="sm"
-            onClick={handleAdd}
-            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-200 gap-1.5 text-xs font-medium"
+            onClick={() => setShowWeights(!showWeights)}
+            className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-[1.01] transition-all duration-200 gap-1.5 text-xs font-medium py-5"
           >
             <Plus className="w-3.5 h-3.5" />
-            Add to Cart
+            {selectedWeight
+              ? `Add ${selectedWeight} — Rs. ${priceOptions.find((p) => p.weight === selectedWeight)?.price.toLocaleString()}`
+              : 'Select Weight & Add'}
+            <ChevronDown className={`w-3.5 h-3.5 ml-auto transition-transform duration-200 ${showWeights ? 'rotate-180' : ''}`} />
           </Button>
+
+          {/* Weight dropdown */}
+          {showWeights && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="absolute bottom-full left-0 right-0 mb-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden z-20"
+            >
+              <div className="px-3 py-2 border-b border-border">
+                <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+                  Choose Weight
+                </span>
+              </div>
+              {priceOptions.map((opt) => (
+                <button
+                  key={opt.weight}
+                  onClick={() => handleAdd(opt.weight, opt.price)}
+                  className={`w-full flex items-center justify-between px-3 py-2.5 text-sm hover:bg-primary/5 transition-colors cursor-pointer ${
+                    selectedWeight === opt.weight ? 'bg-primary/10 text-primary font-medium' : 'text-foreground'
+                  }`}
+                >
+                  <span className="font-medium">{opt.weight}</span>
+                  <span className="text-primary font-semibold">
+                    Rs. {opt.price.toLocaleString()}
+                  </span>
+                </button>
+              ))}
+            </motion.div>
+          )}
         </div>
       </div>
     </motion.div>

@@ -20,7 +20,7 @@ model Cake {
   id          String   @id @default(cuid())
   name        String
   description String
-  price       Float
+  prices      String   // JSON: [{"weight":"1 lb","price":1200},{"weight":"2 lb","price":2200},...]
   image       String
   category    String   @default("classic")
   isAvailable Boolean  @default(true)
@@ -50,6 +50,7 @@ model OrderItem {
   orderId  String
   cakeId   String
   cakeName String
+  weight   String
   quantity Int
   price    Float
   order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
