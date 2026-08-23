@@ -35,6 +35,9 @@ export const metadata: Metadata = {
       { url: '/logo.png', sizes: '1080x1080', type: 'image/png' },
     ],
   },
+  verification: {
+    google: 'rsf9fephcOG6-4OmXLVxtu-RPDQ_ZdLT_wZza7DdI0g',
+  },
   openGraph: {
     title: "Tim's Cake — Handcrafted Cakes Made With Love",
     description:
