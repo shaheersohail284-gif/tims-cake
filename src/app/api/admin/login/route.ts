@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { getAdminByEmail } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import { hashPassword, validateEmail, sanitizeInput } from '@/lib/security';
 import { createAdminSession } from '@/lib/auth';
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const admin = await db.admin.findUnique({ where: { email: safeEmail } });
+    const admin = await getAdminByEmail(safeEmail);
 
     if (!admin || !verifyPassword(password, admin.password)) {
       return NextResponse.json(

@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { getOrders, createOrder, getCakeById } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminAuth } from '@/lib/auth';
 import { rateLimit, sanitizeInput, validateEmail, validatePhone } from '@/lib/security';
@@ -10,11 +10,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const orders = await db.order.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: { items: true },
-    });
-
+    const orders = await getOrders();
     return NextResponse.json(orders);
   } catch {
     return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
@@ -91,9 +87,7 @@ export async function POST(request: NextRequest) {
     }[] = [];
 
     for (const item of items) {
-      const cake = await db.cake.findUnique({
-        where: { id: item.cakeId },
-      });
+      const cake = await getCakeById(item.cakeId);
 
       if (!cake || !cake.isAvailable) {
         return NextResponse.json(
@@ -130,21 +124,16 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const order = await db.order.create({
-      data: {
-        customerName: name,
-        customerEmail: email,
-        customerPhone: phone,
-        deliveryAddress: address,
-        deliveryDate: date,
-        deliveryTime: time,
-        notes: safeNotes,
-        totalAmount: Math.round(totalAmount * 100) / 100,
-        items: {
-          create: orderItems,
-        },
-      },
-      include: { items: true },
+    const order = await createOrder({
+      customerName: name,
+      customerEmail: email,
+      customerPhone: phone,
+      deliveryAddress: address,
+      deliveryDate: date,
+      deliveryTime: time,
+      notes: safeNotes,
+      totalAmount: Math.round(totalAmount * 100) / 100,
+      items: orderItems,
     });
 
     return NextResponse.json(order, { status: 201 });

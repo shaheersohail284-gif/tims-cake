@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { db } from '@/lib/db';
+import { getAdminByEmail } from '@/lib/db';
 import { ADMIN_TOKEN_KEY } from '@/lib/security';
 
 // For simplicity, store active tokens in a module-level Map
@@ -11,7 +11,7 @@ export async function getAdminAuth() {
   if (!token) return null;
   const session = activeTokens.get(token);
   if (!session) return null;
-  const admin = await db.admin.findUnique({ where: { id: session.adminId } });
+  const admin = await getAdminByEmail(session.email);
   return admin;
 }
 

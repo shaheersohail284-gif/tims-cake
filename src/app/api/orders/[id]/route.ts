@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { getOrderById, updateOrderStatus } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminAuth } from '@/lib/auth';
 
@@ -31,7 +31,7 @@ export async function PATCH(
       );
     }
 
-    const order = await db.order.findUnique({ where: { id } });
+    const order = await getOrderById(id);
 
     if (!order) {
       return NextResponse.json(
@@ -48,11 +48,7 @@ export async function PATCH(
       );
     }
 
-    const updated = await db.order.update({
-      where: { id },
-      data: { status },
-      include: { items: true },
-    });
+    const updated = await updateOrderStatus(id, status);
 
     return NextResponse.json(updated);
   } catch {
