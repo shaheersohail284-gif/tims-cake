@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Star, ChevronDown, X, Expand } from 'lucide-react';
+import { Plus, Star, ChevronDown, ChevronLeft, ChevronRight, X, Expand } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCartStore, type PriceOption } from '@/lib/store';
@@ -15,6 +15,7 @@ interface CakeCardProps {
     description: string;
     prices: string;
     image: string;
+    images?: string[];
     category: string;
     isFeatured: boolean;
   };
@@ -26,6 +27,10 @@ export default function CakeCard({ cake, index }: CakeCardProps) {
   const [showWeights, setShowWeights] = useState(false);
   const [selectedWeight, setSelectedWeight] = useState<string | null>(null);
   const [showFullscreen, setShowFullscreen] = useState(false);
+  const [currentImg, setCurrentImg] = useState(0);
+  const [fullscreenImg, setFullscreenImg] = useState(0);
+
+  const allImages = cake.image ? [cake.image, ...(cake.images || [])] : [];
 
   let priceOptions: PriceOption[] = [];
   try {
@@ -73,16 +78,27 @@ export default function CakeCard({ cake, index }: CakeCardProps) {
         {/* Image */}
         <div
           className="relative aspect-[4/3] overflow-hidden cursor-pointer"
-          onClick={() => setShowFullscreen(true)}
+          onClick={() => { setFullscreenImg(currentImg); setShowFullscreen(true); }}
         >
           <motion.img
-            src={cake.image}
+            src={allImages[currentImg] || cake.image}
             alt={cake.name}
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
             loading="lazy"
           />
+          {allImages.length > 1 && (
+            <div className='absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10'>
+              {allImages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => { e.stopPropagation(); setCurrentImg(i); }}
+                  className={`w-2 h-2 rounded-full transition-all ${i === currentImg ? 'bg-white w-5' : 'bg-white/50 hover:bg-white/75'}`}
+                />
+              ))}
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
           {/* Expand icon on hover */}
@@ -196,10 +212,35 @@ export default function CakeCard({ cake, index }: CakeCardProps) {
                 <X className="w-8 h-8" />
               </button>
               <img
-                src={cake.image}
+                src={allImages[fullscreenImg] || cake.image}
                 alt={cake.name}
                 className="w-full h-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
               />
+              {allImages.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setFullscreenImg((fullscreenImg - 1 + allImages.length) % allImages.length)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white rounded-full p-2 transition-colors cursor-pointer"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={() => setFullscreenImg((fullscreenImg + 1) % allImages.length)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white rounded-full p-2 transition-colors cursor-pointer"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {allImages.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setFullscreenImg(i)}
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${i === fullscreenImg ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/70'}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl p-4">
                 <h3 className="font-[family-name:var(--font-playfair)] text-xl font-semibold text-white">
                   {cake.name}

@@ -13,6 +13,7 @@ interface Cake {
   description: string;
   prices: string;
   image: string;
+  images?: string[];
   category: string;
   isFeatured: boolean;
 }
@@ -113,7 +114,7 @@ export default function MenuSection() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {filtered.map((cake, i) => (
-                <CakeCard key={cake.id} cake={cake} index={i} />
+                <CakeCard key={cake.id} cake={{...cake, images: cake.images}} index={i} />
               ))}
             </motion.div>
           </AnimatePresence>
