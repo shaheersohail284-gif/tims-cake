@@ -24,9 +24,14 @@ export default function MenuSection() {
 
   useEffect(() => {
     fetch('/api/cakes')
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error('API error');
+        return r.json();
+      })
       .then((data) => {
-        setCakes(data);
+        if (Array.isArray(data)) {
+          setCakes(data);
+        }
         setLoading(false);
       })
       .catch(() => setLoading(false));
