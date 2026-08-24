@@ -1,4 +1,3 @@
-import 'server-only'
 import { createClient, type Client } from '@libsql/client'
 
 const db: Client = createClient({
