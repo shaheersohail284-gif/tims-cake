@@ -8,7 +8,7 @@ const db: Client = createClient({
 export { db, type Client }
 
 export async function getCakes() {
-  const result = await db.execute('SELECT * FROM cakes ORDER BY createdAt DESC')
+  const result = await db.execute('SELECT * FROM Cake ORDER BY createdAt DESC')
   return result.rows.map(row => ({
     id: row.id as string,
     name: row.name as string,
@@ -24,7 +24,7 @@ export async function getCakes() {
 
 export async function getCakeById(id: string) {
   const result = await db.execute({
-    sql: 'SELECT * FROM cakes WHERE id = ?',
+    sql: 'SELECT * FROM Cake WHERE id = ?',
     args: [id],
   })
   if (result.rows.length === 0) return null
@@ -43,7 +43,7 @@ export async function getCakeById(id: string) {
 }
 
 export async function getOrders() {
-  const result = await db.execute('SELECT * FROM orders ORDER BY createdAt DESC')
+  const result = await db.execute('SELECT * FROM "Order" ORDER BY createdAt DESC')
   return result.rows.map(row => ({
     id: row.id as string,
     customerName: row.customerName as string,
@@ -59,7 +59,7 @@ export async function getOrders() {
 
 export async function getOrderById(id: string) {
   const result = await db.execute({
-    sql: 'SELECT * FROM orders WHERE id = ?',
+    sql: 'SELECT * FROM "Order" WHERE id = ?',
     args: [id],
   })
   if (result.rows.length === 0) return null
@@ -87,7 +87,7 @@ export async function createOrder(data: {
   const id = crypto.randomUUID()
   const now = new Date().toISOString()
   await db.execute({
-    sql: 'INSERT INTO orders (id, customerName, customerPhone, customerAddress, items, totalAmount, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    sql: 'INSERT INTO "Order" (id, customerName, customerPhone, customerAddress, items, totalAmount, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
     args: [id, data.customerName, data.customerPhone, data.customerAddress, JSON.stringify(data.items), data.totalAmount, 'pending', now, now],
   })
   return getOrderById(id)
@@ -96,25 +96,25 @@ export async function createOrder(data: {
 export async function updateOrderStatus(id: string, status: string) {
   const now = new Date().toISOString()
   await db.execute({
-    sql: 'UPDATE orders SET status = ?, updatedAt = ? WHERE id = ?',
+    sql: 'UPDATE "Order" SET status = ?, updatedAt = ? WHERE id = ?',
     args: [status, now, id],
   })
   return getOrderById(id)
 }
 
 export async function countOrders() {
-  const result = await db.execute('SELECT COUNT(*) as count FROM orders')
+  const result = await db.execute('SELECT COUNT(*) as count FROM "Order"')
   return result.rows[0].count as number
 }
 
 export async function sumOrderRevenue() {
-  const result = await db.execute('SELECT COALESCE(SUM(totalAmount), 0) as total FROM orders')
+  const result = await db.execute('SELECT COALESCE(SUM(totalAmount), 0) as total FROM "Order"')
   return result.rows[0].total as number
 }
 
 export async function getRecentOrders(limit: number) {
   const result = await db.execute({
-    sql: 'SELECT * FROM orders ORDER BY createdAt DESC LIMIT ?',
+    sql: 'SELECT * FROM "Order" ORDER BY createdAt DESC LIMIT ?',
     args: [limit],
   })
   return result.rows.map(row => ({
@@ -131,7 +131,7 @@ export async function getRecentOrders(limit: number) {
 }
 
 export async function getOrderStatusBreakdown() {
-  const result = await db.execute('SELECT status, COUNT(*) as count FROM orders GROUP BY status')
+  const result = await db.execute('SELECT status, COUNT(*) as count FROM "Order" GROUP BY status')
   return result.rows.map(row => ({
     status: row.status as string,
     count: row.count as number,
@@ -140,7 +140,7 @@ export async function getOrderStatusBreakdown() {
 
 export async function getAdminByEmail(email: string) {
   const result = await db.execute({
-    sql: 'SELECT * FROM admins WHERE email = ?',
+    sql: 'SELECT * FROM Admin WHERE email = ?',
     args: [email],
   })
   if (result.rows.length === 0) return null
